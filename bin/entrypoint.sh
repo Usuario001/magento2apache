@@ -7,11 +7,9 @@
 [ ! -z "${PHP_POST_MAX_SIZE}" ] && sed -i "s/PHP_POST_MAX_SIZE/${PHP_POST_MAX_SIZE}/" /usr/local/etc/php/php.ini
 [ ! -z "${PHP_MAX_IMPUT_VARS}" ] && sed -i "s/PHP_MAX_IMPUT_VARS/${PHP_MAX_IMPUT_VARS}/" /usr/local/etc/php/php.ini
 [ ! -z "${PHP_DISPLAY_ERRORS}" ] && sed -i "s/PHP_DISPLAY_ERRORS/${PHP_DISPLAY_ERRORS}/" /usr/local/etc/php/php.ini
+
 ### supervisord
-[ ! -z "${USER_NAME}" ] && sed -i "s/USER_NAME/${USER_NAME}/" /etc/supervisord.conf
-
+[ ! -z "${MAGENTO_USER}" ] && sed -i "s/MAGENTO_USER/${MAGENTO_USER}/" /etc/supervisord.conf
 export PATH=$PATH:/var/www/html/bin
-chown -R $USER_NAME:$WEBSERVER_USER /var/www/html
-chown -R $USER_NAME:root /home/$USER_NAME
-
-supervisord -n -c /etc/supervisord.conf
+chown -R $MAGENTO_USER:$WEBSERVER_USER /var/www/html
+chown -R $MAGENTO_USER:root /home/$MAGENTO_USER
