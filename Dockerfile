@@ -48,6 +48,10 @@ RUN apt-get update && apt-get install -y \
     erlang-nox \
     logrotate \
     socat \
+    net-tools\
+    openssh-server \
+    ant nano \
+    apache2 \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir /build/ \
 
@@ -82,13 +86,25 @@ RUN apt-get update && apt-get install -y \
     RUN npm install -g express \
         && npm install -g grunt-cli
 
-    ##configurar aqui apache
+    ##Xdebug
+    RUN pecl install xdebug && docker-php-ext-enable xdebug \
+        && chmod 666 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-    # supervisord config
+    ##Composer
+    RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+    ##Apache2
+    RUN a2enmod rewrite \
+        && a2enmod proxy \
+        && a2enmod proxy_fcgi
+    COPY conf/sites-config.conf /etc/apache2/sites-enabled/000-default.conf
+    ADD conf/php.ini /usr/local/etc/php
+
+    ## supervisord config
     RUN rm /etc/supervisor/supervisord.conf
     COPY conf/supervisord.conf /etc/supervisord.conf
 
-    # entrypoint
+    ## entrypoint
     COPY bin/entrypoint.sh /usr/local/bin/
     RUN chmod +x /usr/local/bin/entrypoint.sh
 
