@@ -97,7 +97,7 @@ RUN apt-get update && apt-get install -y \
     RUN a2enmod rewrite \
         && a2enmod proxy \
         && a2enmod proxy_fcgi
-    COPY conf/sites-config.conf /etc/apache2/sites-enabled/000-default.conf
+    COPY conf/000-default.conf /etc/apache2/sites-enabled/000-default.conf
     ADD conf/php.ini /usr/local/etc/php
 
     ## supervisord config
