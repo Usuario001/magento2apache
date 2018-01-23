@@ -86,13 +86,6 @@ RUN apt-get update && apt-get install -y \
     RUN npm install -g express \
         && npm install -g grunt-cli
 
-    ##Xdebug
-    RUN pecl install xdebug && docker-php-ext-enable xdebug \
-        && chmod 666 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-    ##Composer
-    RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
     ##Apache2
     RUN a2enmod rewrite \
         && a2enmod proxy \
